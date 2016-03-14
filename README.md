@@ -137,9 +137,6 @@ To use multiple style images, pass a comma-separated list like this:
 
 `-style_image starry_night.jpg,the_scream.jpg`.
 
-Note that paths to images should not contain the `~` character to represent your home directory; you should instead use a relative
-path or a full absolute path.
-
 **Options**:
 * `-image_size`: Maximum side length (in pixels) of of the generated image. Default is 512.
 * `-style_blend_weights`: The weight for blending the style of multiple style images, as a
@@ -261,3 +258,14 @@ Images are initialized with white noise and optimized using L-BFGS.
 We perform style reconstructions using the `conv1_1`, `conv2_1`, `conv3_1`, `conv4_1`, and `conv5_1` layers
 and content reconstructions using the `conv4_2` layer. As in the paper, the five style reconstruction losses have
 equal weights.
+
+## Using Docker
+You can also run neural-style in Docker. First you need to build the image by running `docker build -t neural-style .`
+in the root of this repository. To provide input images and access the output image, you need to bind-mount a
+directory. All you need is to install [Docker](https://docs.docker.com/engine/installation/) and run the following
+commands:
+
+    docker build -t neural-style .
+    docker run --rm -v /path/to/image-directory:/images neural-style \
+      -style_image /images/style.jpg -content_image /images/content.jpg -output_image /images/output.jpg
+
